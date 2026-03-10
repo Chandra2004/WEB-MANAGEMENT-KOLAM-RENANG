@@ -1,0 +1,60 @@
+# Environment Variables
+.env
+.env.backup
+.env.production
+
+# Dependencies
+/vendor/
+composer.phar
+
+# Storage & Cache (Ignore contents, keep directory structure)
+/storage/session/*
+!/storage/session/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/cache/*
+!/storage/cache/.gitignore
+/storage/app/*
+!/storage/app/.gitignore
+
+# User Uploads (Ignore file uploads)
+/private-uploads/*
+!/private-uploads/.gitignore
+!/private-uploads/shared/
+/public/assets/uploads/*
+!/public/assets/uploads/.gitignore
+
+# System & IDE Files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.idx/
+*.swp
+*.swo
+
+# Temporary Files
+*.log
+*.tmp
+*.bak
+
+# Node Modules (Jika nanti pakai frontend build tools)
+node_modules/
+npm-debug.log
+
+# Test Cache
+.phpunit.cache
+.phpunit.result.cache
+
+# INTERNAL AUDIT DOCS (DO NOT COMMIT)
+QA_AUDIT.md
+QA_CATEGORIZED_ISSUES.md
+SECURITY_AUDIT_REPORT.md
+.AUDIT/
+
+# Google Verification
+google*.html
