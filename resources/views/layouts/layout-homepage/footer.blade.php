@@ -9,7 +9,7 @@
                     Membangun generasi juara melalui olahraga renang yang disiplin, sportif, dan menyenangkan.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#"
+                    <a href="https://www.instagram.com/khafidswimmingclub?igsh=NGNpYWwzNHA4bWs="
                         class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-ksc-blue hover:text-white transition"><i
                             data-lucide="instagram" class="w-5 h-5"></i></a>
                     <a href="#"

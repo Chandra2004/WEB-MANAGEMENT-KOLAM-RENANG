@@ -309,7 +309,7 @@
                 </div>
                 <a href="{{ url('/coaches') }}"
                     class="mt-6 md:mt-0 px-6 py-3 bg-slate-900 text-white rounded-full font-bold flex items-center gap-3 hover:bg-ksc-blue transition-colors">
-                    Lihat Staff <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    Lihat Pelatih <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </a>
             </div>
 

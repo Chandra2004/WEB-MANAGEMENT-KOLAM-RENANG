@@ -16,8 +16,8 @@ class Seeder_2026_02_13_134704_UsersSeeder extends Seeder {
         $users = [
             [
                 'uid' => Helper::uuid(),
-                'nama_lengkap' => 'admin cuyy',
-                'email' => 'admin@gmail.com',
+                'nama_lengkap' => 'admin mada',
+                'email' => 'madaakhmad30@gmail.com',
                 'password'=> Helper::hash_password('admin123123'),
                 'uid_role' => Role::all()[0]['uid'],
             ],
@@ -33,13 +33,6 @@ class Seeder_2026_02_13_134704_UsersSeeder extends Seeder {
                 'nama_lengkap' => 'pelatih kawandd',
                 'email' => 'pelatih@gmail.com',
                 'password'=> Helper::hash_password('pelatih123123'),
-                'uid_role' => Role::all()[1]['uid'],
-            ],
-            [
-                'uid' => Helper::uuid(),
-                'nama_lengkap' => 'Mada Akhmad',
-                'email' => 'madaakhmad30@gmail.com',
-                'password'=> Helper::hash_password('mada123123'),
                 'uid_role' => Role::all()[1]['uid'],
             ],
             [

@@ -66,7 +66,7 @@
                     <h2 class="text-4xl font-bold text-slate-900 mb-6 leading-tight">Khafid Swimming Club
                     </h2>
                     <p class="text-slate-600 text-lg mb-8 leading-relaxed">
-                        adalah perkumpulan renang yang didirikan pada tahun 2026 untuk memberikan
+                        adalah perkumpulan renang yang didirikan pada tahun 2016 untuk memberikan
                         wadah pembelajaran berenang bagi masyarakat. Klub ini berfokus pada pengembangan keterampilan
                         renang, mulai dari teknik dasar hingga kelas lanjutan. Dengan dukungan pelatih berpengalaman dan
                         kerja keras, klub telah berhasil mencetak atlet yang berprestasi di berbagai kejuaraan daerah,

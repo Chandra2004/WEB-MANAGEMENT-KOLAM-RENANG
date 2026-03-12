@@ -45,7 +45,7 @@
                         'hero-about': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.6)), url('{{ url('/assets/images/gambar_renang_23.webp') }}')",
                         'hero-pelatih': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.7)), url('{{ url('/assets/images/gambar_renang_18.webp') }}')",
                         'hero-lomba': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.7)), url('{{ url('/assets/images/gambar_renang_20.webp') }}')",
-                        'hero-fasilitas': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.7)), url('https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2070&auto=format&fit=crop')",
+                        'hero-fasilitas': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.7)), url('{{ url('/assets/images/gambar_renang_26.webp') }}')",
                         'hero-gallery': "linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(30, 58, 138, 0.7)), url('{{ url('/assets/images/gambar_renang_12.webp') }}')",
                     }
                 }
