@@ -52,7 +52,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: khafidswimmingclub.com/htdocs
+          server-dir: htdocs/
           timeout: 3600000
           exclude: |
             **/.git*
