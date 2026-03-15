@@ -286,8 +286,8 @@
         <table class="header-table">
             <tr>
 
-                <td width="120">
-                    <img src="data:image/x-icon;base64,<?= base64_encode(file_get_contents(url('assets/ico/favicon.ico'))) ?>">
+                <td>
+                    <img width="80" src="https://uploads.turbologo.com/uploads/design/preview_image/68460535/preview_image20241130-1-mavqv6.png">
 
                 </td>
 
@@ -299,8 +299,8 @@
 
                 </td>
 
-                <td width="120" class="text-right">
-                    <img src="data:image/x-icon;base64,<?= base64_encode(file_get_contents(url('assets/ico/favicon.ico'))) ?>">
+                <td class="text-right">
+                    <img width="80" src="https://uploads.turbologo.com/uploads/design/preview_image/68460535/preview_image20241130-1-mavqv6.png">
                 </td>
 
             </tr>

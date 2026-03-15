@@ -33,7 +33,7 @@ jobs:
           # 1. CORE CONFIG (Hardcoded based on User Request)
           echo "APP_ENV=production" > .env
           echo "APP_DEBUG=false" >> .env
-          echo "APP_NAME=TheFramework" >> .env
+          echo "APP_NAME=KhafidSwimmingClub" >> .env
           echo "APP_KEY=base64:hjn/brjAmN4+flvaSBljbXB0sTSgJnFAF6B4NZs72O4=" >> .env
           echo "DB_CONNECTION=mysql" >> .env
           echo "DB_PORT=3306" >> .env
@@ -52,7 +52,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: htdocs/
+          server-dir: khafidswimmingclub.com/htdocs
           timeout: 3600000
           exclude: |
             **/.git*
