@@ -57,15 +57,26 @@ class EmailHandler
 
         try {
             $mail->isSMTP();
+            $mail->Timeout = 30; // Set timeout ke 30 detik agar tidak loading selamanya
             $mail->Host = $mailHost;
             $mail->SMTPAuth = true;
             $mail->Username = $mailUser;
             $mail->Password = $mailPass;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            // Tentukan enkripsi berdasarkan port
+            if ($mailPort == 465) {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // SSL
+            } else {
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS
+            }
             $mail->Port = $mailPort;
 
             $mail->setFrom($mailFrom, $mailName);
+            $mail->addReplyTo($mailFrom, $mailName); // Tambahkan Reply-To
             $mail->addAddress($to);
+
+            // Tambahkan Header tambahan untuk mengurangi resiko spam
+            $mail->XMailer = 'TheFramework Mailer';
+            $mail->Priority = 1; // High priority
 
             if (!empty($options['cc'])) {
                 foreach ((array) $options['cc'] as $cc)
