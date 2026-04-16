@@ -11,9 +11,13 @@ class FileController
             'banner-event',
             'gallery',
             'users',
+            'avatars',
             'id_cards',
+            'identity_cards',
+            'birth_certificates',
             'kode-bank',
             'bukti-pembayaran',
+            'logos',
             'dummy'
             // tambahkan array disini
         ];

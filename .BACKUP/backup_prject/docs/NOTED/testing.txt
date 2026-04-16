@@ -1,0 +1,7 @@
+https://8080-firebase-manage-kolam-renang-1772006932740.cluster-w5vd22whf5gmav2vgkomwtc4go.cloudworkstations.dev
+
+
+Terjadi kesalahan: Database operation failed: Message: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`the_framework_db`.`payments`, CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`uid_registration`) REFERENCES `registrations` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE) SQL: INSERT INTO `payments` (`uid`, `uid_registration`, `status_pembayaran`, `tanggal_pembayaran`, `bukti_pembayaran`) VALUES (:uid, :uid_registration, :status_pembayaran, :tanggal_pembayaran, :bukti_pembayaran)
+
+
+Terjadi kesalahan: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'event_uid' in 'field list'

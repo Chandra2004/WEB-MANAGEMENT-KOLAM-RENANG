@@ -40,18 +40,20 @@ class EventRequest extends FormRequest
     {
         return [
             'banner_event' => 'nullable|mimes:jpg,png,jpeg|max:2048',
-            'nama_event' => 'nullable|string|max:255',
+            'logo_kiri' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'logo_kanan' => 'nullable|mimes:jpg,png,jpeg|max:2048',
+            'nama_event' => 'required',
             'deskripsi' => 'nullable|string',
-            'lokasi_event' => 'nullable|string',
-            'waktu_event' => 'required',
-            'tanggal_event' => 'required',
-            'biaya_event' => 'nullable',
+            'lokasi_event' => 'required',
+            'tanggal_mulai' => 'required',
+            'tanggal_selesai' => 'required',
+            'waktu_mulai' => 'required',
+            'jumlah_lintasan' => 'required',
             'status_event' => 'required',
-            'kuota_peserta' => 'required|numeric',
-            'tipe_event' => 'required',
             'uid_author' => 'required',
-            'uid_kategori' => 'required',
-            'uid_payment_method' => 'nullable'
+            'uid_payment_method' => 'nullable',
+            // Simple array validation (manual validation will be done in Controller)
+            'matches' => 'required|array|min:1',
         ];
     }
 
@@ -65,6 +67,8 @@ class EventRequest extends FormRequest
     {
         return [
             'banner_event' => 'banner event',
+            'logo_kiri' => 'logo kiri',
+            'logo_kanan' => 'logo kanan',
             'nama_event' => 'nama event',
             'deskripsi' => 'deskripsi',
             'lokasi_event' => 'lokasi event',
@@ -73,7 +77,12 @@ class EventRequest extends FormRequest
             'biaya_event' => 'biaya event',
             'status_event' => 'status event',
             'kuota_peserta' => 'kuota peserta',
-            'tipe_event' => 'tipe event'
+            'tipe_event' => 'tipe event',
+            'matches.*.uid_category' => 'nomor lomba',
+            'matches.*.nama_acara' => 'nama tampilan lomba',
+            'matches.*.biaya_pendaftaran' => 'biaya pendaftaran',
+            'matches.*.tipe_biaya' => 'tipe biaya',
+            'matches.*.waktu_mulai' => 'waktu mulai lomba',
         ];
     }
 
