@@ -286,30 +286,31 @@
     {{-- REGISTRATION MODAL --}}
     <div id="registration-modal" tabindex="-1" aria-hidden="true"
         class="fixed top-0 left-0 right-0 z-[110] hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full bg-slate-900/60 backdrop-blur-md">
-        <div class="relative w-full max-w-md flex items-center justify-center min-h-screen mx-auto">
+        <div class="relative w-full max-w-5xl flex items-center justify-center min-h-screen mx-auto">
             <div
                 class="relative bg-white rounded-[3rem] shadow-2xl border border-white/20 overflow-hidden transform transition-all w-full">
 
                 <button type="button"
-                    class="absolute top-6 right-6 z-20 text-slate-400 hover:text-red-500 transition-colors"
+                    class="absolute top-6 right-6 z-20 w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 hover:bg-red-100 hover:text-red-500 transition-colors"
                     data-modal-toggle="registration-modal">
-                    <i data-lucide="x" class="w-6 h-6"></i>
+                    <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
 
                 <form action="{{ url('/registration/event/create/process') }}" method="POST"
-                    enctype="multipart/form-data">
+                    enctype="multipart/form-data" class="flex flex-col">
                     @csrf
                     <input type="hidden" name="uid_user" value="{{ $user['uid'] ?? '' }}">
                     <input type="hidden" name="uid_event" value="{{ $event['uid'] }}">
 
-                    <div class="p-8 md:p-10 pt-12">
-                        {{-- Kategori Lomba (Swimming Category) - MULTI SELECT --}}
-                        <div class="mb-8">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 block italic mb-4">
-                                Pilih Nomor Lomba (Bisa pilih lebih dari satu)
-                            </label>
+                    <div class="p-8 md:p-10 pt-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                        {{-- Kolom Kiri: Kategori Lomba --}}
+                        <div class="flex flex-col w-full">
+                            <div class="mb-6">
+                                <h3 class="text-2xl font-black text-slate-900 italic uppercase leading-tight">Pilih Kategori</h3>
+                                <p class="text-xs text-slate-400 mt-1 font-bold uppercase tracking-widest">Pilih Nomor Lomba (Bisa pilih lebih dari satu)</p>
+                            </div>
                             
-                            <div class="grid grid-cols-1 gap-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
+                            <div class="grid grid-cols-1 gap-3 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
                                 @foreach($event['eventCategories'] as $cat)
                                     @php 
                                         $isReg = in_array($cat['uid'], $registeredCategoryUids ?? []); 
@@ -359,12 +360,14 @@
                             </div>
                         </div>
 
-                        {{-- Dynamic Payment Section --}}
-                        <div id="payment-section" class="hidden">
-                            <div class="text-center mb-8">
-                                <h3 class="text-2xl font-black text-slate-900 italic uppercase leading-tight">Satu Langkah Lagi</h3>
-                                <p class="text-xs text-slate-400 mt-2 font-bold uppercase tracking-widest">Selesaikan Pembayaran Anda</p>
-                            </div>
+                        {{-- Kolom Kanan: Payment Section --}}
+                        <div class="flex flex-col w-full bg-slate-50 p-6 md:p-8 rounded-[2rem] border-2 border-slate-100">
+                            {{-- Dynamic Payment Section --}}
+                            <div id="payment-section" class="hidden">
+                                <div class="text-left mb-6 border-b-2 border-slate-200 pb-4">
+                                    <h3 class="text-xl font-black text-slate-900 italic uppercase leading-tight">Satu Langkah Lagi</h3>
+                                    <p class="text-[10px] text-slate-400 mt-1 font-bold uppercase tracking-widest">Selesaikan Pembayaran Anda</p>
+                                </div>
 
                             @if($event['rekening'])
                                 {{-- Pembayaran Box (Info Rekening) --}}
@@ -388,7 +391,7 @@
                                 </div>
 
                                 @if ($event['photo'] != null)
-                                    <div class="relative w-full p-4 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200 mb-6 text-center">
+                                    <div class="relative w-full p-4 bg-white rounded-[2rem] border-2 border-dashed border-slate-200 mb-6 text-center">
                                         <img src="{{ url('/file/kode-bank/' . $event['photo']) }}" alt="QRIS"
                                             class="w-40 h-40 object-contain mx-auto mix-blend-multiply">
                                         <p class="mt-2 text-[10px] font-black text-ksc-blue uppercase tracking-widest italic">
@@ -412,14 +415,19 @@
                                     <select name="metode_pembayaran" id="metode_pembayaran"
                                         class="bg-white border-2 border-slate-100 text-slate-900 text-xs font-bold rounded-2xl block w-full p-3.5 outline-none focus:border-ksc-blue transition-all cursor-pointer">
                                         <option value="" disabled selected>Pilih Metode...</option>
-                                        <optgroup label="Transfer Bank">
-                                            <option value="{{ $event['bank'] ?? 'Transfer Bank' }}">Transfer Ke Rekening Panitia</option>
-                                            <option value="Tunai">Tunai / Cash</option>
+                                        <optgroup label="Metode Utama">
+                                            <option value="{{ $event['bank'] ?? 'Transfer Bank' }}">Transfer {{ $event['bank'] ?? 'Bank' }}</option>
+                                            @if($event['photo'])
+                                                <option value="QRIS">Scan QRIS</option>
+                                            @endif
+                                            <option value="Tunai">Tunai / Cash On The Spot</option>
                                         </optgroup>
-                                        <optgroup label="E-Wallet">
+                                        <optgroup label="E-Wallet (Transfer Bank/QRIS)">
                                             <option value="GoPay">GoPay</option>
                                             <option value="OVO">OVO</option>
-                                            <option value="Dana">Dana</option>
+                                            <option value="Dana">DANA</option>
+                                            <option value="ShopeePay">ShopeePay</option>
+                                            <option value="LinkAja">LinkAja</option>
                                         </optgroup>
                                     </select>
                                 </div>
@@ -429,14 +437,14 @@
                                         Total Bayar (IDR)
                                     </label>
                                     <input type="number" name="total_bayar" id="input-total-price" readonly
-                                        class="bg-slate-50 border-2 border-slate-100 text-slate-400 text-xs font-bold rounded-2xl block w-full p-3.5 outline-none cursor-not-allowed">
+                                        class="bg-slate-100 border-2 border-slate-200 text-slate-500 text-xs font-bold rounded-2xl block w-full p-3.5 outline-none cursor-not-allowed">
                                 </div>
                             </div>
 
                             {{-- UPLOAD BUKTI --}}
-                            <div class="space-y-3 mb-6">
+                            <div id="upload-bukti-section" class="space-y-3 mb-6 transition-all duration-300">
                                 <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2 block italic">
-                                    Unggah Bukti Transfer
+                                    Unggah Bukti Pembayaran / Placeholder
                                 </label>
                                 <div class="relative group">
                                     <input type="file" name="bukti_pembayaran" id="bukti_input"
@@ -444,7 +452,7 @@
                                         onchange="previewBukti(this)">
 
                                     <div id="upload-placeholder"
-                                        class="flex flex-col items-center justify-center p-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2rem] group-hover:border-ksc-blue group-hover:bg-blue-50 transition-all">
+                                        class="flex flex-col items-center justify-center p-6 bg-white border-2 border-dashed border-slate-200 rounded-[2rem] group-hover:border-ksc-blue group-hover:bg-blue-50 transition-all">
                                         <div class="w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-slate-400 mb-2 group-hover:text-ksc-blue transition-colors">
                                             <i data-lucide="camera" class="w-6 h-6"></i>
                                         </div>
@@ -461,26 +469,27 @@
                             </div>
                         </div>
 
-                        {{-- Free Access Info --}}
-                        <div id="free-access-info" class="text-center py-6">
-                            <div class="w-16 h-16 bg-blue-50 text-ksc-blue rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                <i data-lucide="gift" class="w-8 h-8"></i>
+                            {{-- Free Access Info --}}
+                            <div id="free-access-info" class="text-center py-6">
+                                <div class="w-16 h-16 bg-blue-50 text-ksc-blue rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                    <i data-lucide="gift" class="w-8 h-8"></i>
+                                </div>
+                                <h3 class="text-xl font-black text-slate-900 italic uppercase">Pendaftaran Gratis</h3>
+                                <p class="text-[10px] text-slate-500 mt-1 px-6 uppercase font-bold tracking-widest">Klik konfirmasi untuk mengamankan slot Anda.</p>
                             </div>
-                            <h3 class="text-xl font-black text-slate-900 italic uppercase">Pendaftaran Gratis</h3>
-                            <p class="text-[10px] text-slate-500 mt-1 px-6 uppercase font-bold tracking-widest">Klik konfirmasi untuk mengamankan slot Anda.</p>
-                        </div>
 
-                        <div class="mt-10">
-                            <button type="submit"
-                                class="w-full py-5 bg-ksc-blue hover:bg-ksc-dark text-white rounded-[1.5rem] font-black shadow-2xl shadow-blue-200 transition active:scale-95 flex items-center justify-center gap-3 group">
-                                <span>{{ $event['biaya_event'] > 0 ? 'KIRIM KONFIRMASI' : 'DAFTAR SEKARANG' }}</span>
-                                <i data-lucide="check-circle"
-                                    class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                            </button>
-                            <p
-                                class="text-[9px] text-center text-slate-400 mt-4 font-bold uppercase tracking-widest italic">
-                                *Admin akan memverifikasi dalam 1x24 jam.
-                            </p>
+                            <div class="mt-8 pt-6 border-t-2 border-slate-200">
+                                <button type="submit"
+                                    class="w-full py-5 bg-ksc-blue hover:bg-ksc-dark text-white rounded-[1.5rem] font-black shadow-2xl shadow-blue-200 transition active:scale-95 flex items-center justify-center gap-3 group">
+                                    <span>{{ $event['biaya_event'] > 0 ? 'KIRIM KONFIRMASI' : 'DAFTAR SEKARANG' }}</span>
+                                    <i data-lucide="check-circle"
+                                        class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                                </button>
+                                <p
+                                    class="text-[9px] text-center text-slate-400 mt-4 font-bold uppercase tracking-widest italic">
+                                    *Admin akan memverifikasi dalam 1x24 jam.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -608,6 +617,7 @@
                 const freeAccessInfo = document.getElementById('free-access-info');
                 const buktiInput = document.getElementById('bukti_input');
                 const metodeSelect = document.getElementById('metode_pembayaran');
+                const uploadSection = document.getElementById('upload-bukti-section');
 
                 if (displayTotal) {
                     displayTotal.innerText = `Rp ${new Intl.NumberFormat('id-ID').format(total)}`;
@@ -616,14 +626,30 @@
                     inputTotal.value = total;
                 }
 
+                const isTunai = metodeSelect && metodeSelect.value === 'Tunai';
+
                 if (total > 0) {
                     paymentSection.classList.remove('hidden');
                     freeAccessInfo.classList.add('hidden');
-                    if (buktiInput) buktiInput.setAttribute('required', 'required');
+                    
                     if (metodeSelect) metodeSelect.setAttribute('required', 'required');
+                    
+                    if (uploadSection) uploadSection.classList.remove('hidden');
+                    if (buktiInput) buktiInput.setAttribute('required', 'required');
+                    
+                    // Update label hint untuk Tunai
+                    const labelBukti = document.querySelector('#upload-bukti-section label');
+                    if (labelBukti) {
+                        if (isTunai) {
+                            labelBukti.innerText = "Unggah Bukti Pembayaran (Wajib diisi)";
+                        } else {
+                            labelBukti.innerText = "Unggah Bukti Transfer / Pembayaran";
+                        }
+                    }
                 } else {
                     paymentSection.classList.add('hidden');
                     freeAccessInfo.classList.remove('hidden');
+                    if (uploadSection) uploadSection.classList.remove('hidden');
                     if (buktiInput) buktiInput.removeAttribute('required');
                     if (metodeSelect) metodeSelect.removeAttribute('required');
                 }
@@ -632,6 +658,11 @@
             checkboxes.forEach(cb => {
                 cb.addEventListener('change', updateTotal);
             });
+
+            const metodeSelectEl = document.getElementById('metode_pembayaran');
+            if (metodeSelectEl) {
+                metodeSelectEl.addEventListener('change', updateTotal);
+            }
 
             // Initial call
             updateTotal();

@@ -208,7 +208,11 @@ class User extends Model
             if(isset($data['nama_role'])) {
                 $user = self::where('uid', '=', $uid)->first();
                 if ($user) {
-                    // Clear old roles first if needed, but for now just assign
+                    // Clear old roles first
+                    $this->db->query("DELETE FROM model_has_roles WHERE model_id = :uid AND model_type = 'User'");
+                    $this->db->bind(':uid', $user->id);
+                    $this->db->execute();
+
                     $user->assignRole($data['nama_role']);
                 }
             }

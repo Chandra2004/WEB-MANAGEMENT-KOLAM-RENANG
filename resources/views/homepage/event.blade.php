@@ -69,7 +69,7 @@
                     </div>
                     <input type="text" id="eventSearchInput" value="{{ $currentKeyword ?? '' }}" placeholder="Cari nama event atau lokasi kompetisi..."
                         class="w-full bg-transparent border-none text-white text-sm font-medium focus:ring-0 placeholder:text-slate-600 py-4">
-                    <button class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-[2rem] font-bold text-sm transition-all shadow-lg shadow-blue-600/20 mr-1">
+                    <button id="searchEventBtn" class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-[2rem] font-bold text-sm transition-all shadow-lg shadow-blue-600/20 mr-1">
                         Cari Sekarang
                     </button>
                 </div>
@@ -209,14 +209,27 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const searchInput = document.getElementById('eventSearchInput');
+            const searchBtn = document.getElementById('searchEventBtn');
+
+            function performSearch() {
+                const term = searchInput.value.trim();
+                window.location.href = term !== "" ? `/events/search/${encodeURIComponent(term)}` : `/events`;
+            }
+
             if (searchInput) {
                 searchInput.addEventListener('keypress', function(e) {
                     if (e.key === 'Enter') {
-                        const term = e.target.value.trim();
-                        window.location.href = term !== "" ? `/events/search/${encodeURIComponent(term)}` : `/events`;
+                        performSearch();
                     }
                 });
             }
+
+            if (searchBtn) {
+                searchBtn.addEventListener('click', function() {
+                    performSearch();
+                });
+            }
+
             if (typeof lucide !== 'undefined') lucide.createIcons();
         });
     </script>

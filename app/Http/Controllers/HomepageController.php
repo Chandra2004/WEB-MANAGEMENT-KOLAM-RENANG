@@ -110,14 +110,34 @@ class HomepageController extends Controller
 
     public function events($keyword = null, $page = 1)
     {
-        $query = Event::query();
+        $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $currentKeyword = null;
+        $currentPage = 1;
 
-        if ($keyword && $keyword != 'page') {
-            $query->where('nama_event', 'like', "%{$keyword}%")
-                ->orWhere('lokasi_event', 'like', "%{$keyword}%");
+        // Logika untuk membedakan rute search vs page biasa
+        if (strpos($currentPath, '/events/search/') !== false) {
+            $currentKeyword = urldecode($keyword);
+            $currentPage = $page;
+        } elseif (strpos($currentPath, '/events/page/') !== false) {
+            $currentKeyword = null;
+            $currentPage = (int)$keyword; // Parameter pertama di rute ini adalah nomor halaman
+        } else {
+            $currentKeyword = $keyword;
+            $currentPage = $page;
         }
 
-        $pagination = $query->with(['eventCategories.category', 'eventCategories.registrations', 'author'])->orderBy("tanggal_mulai", "DESC")->paginate(9, $page);
+        $query = Event::query();
+
+        if ($currentKeyword && $currentKeyword != 'page') {
+            $query->where(function($q) use ($currentKeyword) {
+                $q->where('nama_event', 'like', "%{$currentKeyword}%")
+                  ->orWhere('lokasi_event', 'like', "%{$currentKeyword}%");
+            });
+        }
+
+        $pagination = $query->with(['eventCategories.category', 'eventCategories.registrations', 'author'])
+            ->orderBy("tanggal_mulai", "DESC")
+            ->paginate(9, $currentPage);
         
         foreach ($pagination['data'] as &$event) {
             $count = 0;
@@ -129,14 +149,13 @@ class HomepageController extends Controller
             $event['registrations_count'] = $count;
         }
 
-        $events = $pagination;
-
         return View::render('homepage.event', [
             'user' => $this->sessionLogin,
             'notification' => Helper::get_flash('notification'),
             "title" => "Khafid Swimming Club (KSC) - Official Website | Event",
             'categories' => Category::query()->all(),
-            'events' => $events,
+            'events' => $pagination,
+            'currentKeyword' => $currentKeyword,
         ]);
     }
 

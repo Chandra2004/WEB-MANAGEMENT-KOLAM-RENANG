@@ -187,7 +187,7 @@
 
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Tanggal Lahir<span class="text-red-500 ml-1">*</span></label>
-                            <input type="date" name="tanggal_lahir" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['tanggal_lahir'] }}">
+                            <input type="date" name="tanggal_lahir" max="{{ date('Y-m-d') }}" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['tanggal_lahir'] }}">
                         </div>
 
                         <div>
@@ -200,22 +200,22 @@
 
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Nomor KTP (NIK)<span class="text-red-500 ml-1">*</span></label>
-                            <input type="text" name="nomor_ktp" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['nomor_ktp'] ?? '' }}" placeholder="16 digit Nomor Induk Kependudukan">
+                            <input type="number" min="0" name="nomor_ktp" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['nomor_ktp'] ?? '' }}" placeholder="16 digit Nomor Induk Kependudukan">
                         </div>
 
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Nomor KK</label>
-                            <input type="text" name="nomor_kk" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['nomor_kk'] ?? '' }}" placeholder="Nomor Kartu Keluarga">
+                            <input type="number" min="0" name="nomor_kk" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['nomor_kk'] ?? '' }}" placeholder="Nomor Kartu Keluarga">
                         </div>
 
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Nomor Telepon/WA<span class="text-red-500 ml-1">*</span></label>
-                            <input type="text" name="no_telepon" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['no_telepon'] }}">
+                            <input type="number" min="0" name="no_telepon" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['no_telepon'] }}">
                         </div>
 
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">No. Telepon Darurat</label>
-                            <input type="text" name="no_telepon_darurat" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['no_telepon_darurat'] ?? '' }}">
+                            <input type="number" min="0" name="no_telepon_darurat" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['no_telepon_darurat'] ?? '' }}">
                         </div>
                         
                         <div class="md:col-span-1">
@@ -240,7 +240,7 @@
 
                         <div class="md:col-span-1">
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Kode Pos<span class="text-red-500 ml-1">*</span></label>
-                            <input type="text" name="kode_pos" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['kode_pos'] ?? '' }}">
+                            <input type="number" min="0" name="kode_pos" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none transition" value="{{ $user['kode_pos'] ?? '' }}">
                         </div>
 
                         <div class="md:col-span-2">
@@ -260,11 +260,11 @@
                     <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Tinggi Badan (cm)<span class="text-red-500 ml-1">*</span></label>
-                            <input type="number" step="0.1" name="tinggi_badan" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none" value="{{ $user['tinggi_badan'] ?? '' }}">
+                            <input type="number" step="0.1" min="0" name="tinggi_badan" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none" value="{{ $user['tinggi_badan'] ?? '' }}">
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Berat Badan (kg)<span class="text-red-500 ml-1">*</span></label>
-                            <input type="number" step="0.1" name="berat_badan" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none" value="{{ $user['berat_badan'] ?? '' }}">
+                            <input type="number" step="0.1" min="0" name="berat_badan" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 focus:border-ksc-blue block w-full p-4 outline-none" value="{{ $user['berat_badan'] ?? '' }}">
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Gol. Darah</label>
@@ -299,20 +299,9 @@
 
                 @php
                     $occupations = [
-                        'BELUM/TIDAK BEKERJA', 'MENGURUS RUMAH TANGGA', 'PELAJAR/MAHASISWA', 'PENSIUNAN', 'PEGAWAI NEGERI SIPIL',
-                        'TENTARA NASIONAL INDONESIA', 'KEPOLISIAN RI', 'PERDAGANGAN', 'PETANI/PEKEBUN', 'PETERNAK', 'NELAYAN/PERIKANAN',
-                        'INDUSTRI', 'KONSTRUKSI', 'TRANSPORTASI', 'KARYAWAN SWASTA', 'KARYAWAN BUMN', 'KARYAWAN BUMD',
-                        'KARYAWAN HONORER', 'BURUH HARIAN LEPAS', 'BURUH TANI/PERKEBUNAN', 'BURUH NELAYAN/PERIKANAN', 'BURUH PETERNAKAN',
-                        'PEMBANTU RUMAH TANGGA', 'TUKANG CUKUR', 'TUKANG LISTRIK', 'TUKANG BATU', 'TUKANG KAYU', 'TUKANG SOL SEPATU',
-                        'TUKANG LAS/PANDAI BESI', 'TUKANG JAHIT', 'TUKANG GIGI', 'PENATA RIAS', 'PENATA BUSANA', 'PENATA RAMBUT',
-                        'MEKANIK', 'SENIMAN', 'TABIB', 'PARAJI', 'PERANCANG BUSANA', 'PENTERJEMAH', 'IMAM MASJID', 'PENDETA',
-                        'PASTOR', 'WARTAWAN', 'USTADZ/MUBALIGH', 'JURU MASAK', 'PROMOTOR ACARA', 'ANGGota DPR-RI', 'ANGGota DPD',
-                        'ANGGota BPK', 'PRESIDEN', 'WAKIL PRESIDEN', 'ANGGota MAHKAMAH KONSTITUSI', 'ANGGota KABINET/KEMENTERIAN',
-                        'DUTA BESAR', 'GUBERNUR', 'WAKIL GUBERNUR', 'BUPATI', 'WAKIL BUPATI', 'WALIKOTA', 'WAKIL WALIKOTA',
-                        'ANGGota DPRD PROVINSI', 'ANGGota DPRD KABUPATEN/KOTA', 'DOSEN', 'GURU', 'PILOT', 'PENGACARA', 'NOTARIS',
-                        'ARSITEK', 'AKUNTAN', 'KONSULTAN', 'DOKTER', 'BIDAN', 'PERAWAT', 'APOTEKER', 'PSIKIATER/PSIKOLOG',
-                        'PENYIAR TELEVISI', 'PENYIAR RADIO', 'PELAUT', 'PENELITI', 'SOPIR', 'PIALANG', 'PARANORMAL', 'PEDAGANG',
-                        'PERANGKAT DESA', 'KEPALA DESA', 'BIARAWATI', 'WIRASWASTA', 'LAINNYA'
+                        'BELUM/TIDAK BEKERJA', 'MENGURUS RUMAH TANGGA', 'WIRASWASTA / PEDAGANG', 'PEGAWAI NEGERI SIPIL',
+                        'TNI / POLRI', 'KARYAWAN BUMN / BUMD', 'KARYAWAN SWASTA', 'PETANI / PETERNAK / NELAYAN',
+                        'BURUH', 'PENSIUNAN', 'GURU / DOSEN', 'TENAGA KESEHATAN', 'LAINNYA...'
                     ];
                 @endphp
                 <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm overflow-hidden">
@@ -325,29 +314,39 @@
                     <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Nama Ayah</label>
-                            <input type="text" name="nama_ayah" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none" value="{{ $user['nama_ayah'] ?? '' }}">
+                            <input type="text" name="nama_ayah" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none" value="{{ $user['nama_ayah'] ?? '' }}">
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Pekerjaan Ayah</label>
-                            <select name="pekerjaan_ayah" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
+                            <input type="hidden" name="pekerjaan_ayah" :value="finalPekerjaanAyah">
+                            <select x-model="pekerjaanAyahSelection" @change="updatePekerjaanAyahValue()" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
                                 <option value="">Pilih Pekerjaan</option>
                                 @foreach($occupations as $occupation)
-                                    <option value="{{ $occupation }}" {{ (strtoupper($user['pekerjaan_ayah'] ?? '') == $occupation) ? 'selected' : '' }}>{{ ucfirst(strtolower($occupation)) }}</option>
+                                    <option value="{{ $occupation }}">{{ ucfirst(strtolower($occupation)) }}</option>
                                 @endforeach
                             </select>
+                            <div x-show="pekerjaanAyahSelection === 'LAINNYA...'" style="display: none;" class="mt-4">
+                                <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Sebutkan Pekerjaan Ayah</label>
+                                <input type="text" x-model="otherPekerjaanAyah" @input="updatePekerjaanAyahValue()" placeholder="Sebutkan pekerjaan ayah" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
+                            </div>
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Nama Ibu</label>
-                            <input type="text" name="nama_ibu" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none" value="{{ $user['nama_ibu'] ?? '' }}">
+                            <input type="text" name="nama_ibu" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none" value="{{ $user['nama_ibu'] ?? '' }}">
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Pekerjaan Ibu</label>
-                             <select name="pekerjaan_ibu" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
+                             <input type="hidden" name="pekerjaan_ibu" :value="finalPekerjaanIbu">
+                             <select x-model="pekerjaanIbuSelection" @change="updatePekerjaanIbuValue()" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
                                 <option value="">Pilih Pekerjaan</option>
                                 @foreach($occupations as $occupation)
-                                    <option value="{{ $occupation }}" {{ (strtoupper($user['pekerjaan_ibu'] ?? '') == $occupation) ? 'selected' : '' }}>{{ ucfirst(strtolower($occupation)) }}</option>
+                                    <option value="{{ $occupation }}">{{ ucfirst(strtolower($occupation)) }}</option>
                                 @endforeach
                             </select>
+                            <div x-show="pekerjaanIbuSelection === 'LAINNYA...'" style="display: none;" class="mt-4">
+                                <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Sebutkan Pekerjaan Ibu</label>
+                                <input type="text" x-model="otherPekerjaanIbu" @input="updatePekerjaanIbuValue()" placeholder="Sebutkan pekerjaan ibu" class="bg-slate-50 border border-slate-200 text-slate-900 text-sm font-bold rounded-2xl focus:ring-4 focus:ring-blue-50 block w-full p-4 outline-none transition">
+                            </div>
                         </div>
                         <div>
                             <label class="block mb-2 text-[11px] font-black text-slate-400 uppercase tracking-widest">Asal Sekolah<span class="text-red-500 ml-1">*</span></label>
@@ -513,6 +512,14 @@
             otherClubName: '',
             finalClubName: '{{ $user['klub_renang'] ?? '' }}',
 
+            pekerjaanAyahSelection: '',
+            otherPekerjaanAyah: '',
+            finalPekerjaanAyah: '{{ $user['pekerjaan_ayah'] ?? '' }}',
+
+            pekerjaanIbuSelection: '',
+            otherPekerjaanIbu: '',
+            finalPekerjaanIbu: '{{ $user['pekerjaan_ibu'] ?? '' }}',
+
             init() {
                 this.updateCities();
                 
@@ -524,6 +531,25 @@
                     this.otherClubName = userClub;
                 }
                 this.updateClubValue();
+
+                const occupations = @json($occupations);
+                const userPekerjaanAyah = '{{ strtoupper($user['pekerjaan_ayah'] ?? '') }}';
+                if (occupations.includes(userPekerjaanAyah)) {
+                    this.pekerjaanAyahSelection = userPekerjaanAyah;
+                } else if (userPekerjaanAyah) {
+                    this.pekerjaanAyahSelection = 'LAINNYA...';
+                    this.otherPekerjaanAyah = '{{ $user['pekerjaan_ayah'] ?? '' }}';
+                }
+                this.updatePekerjaanAyahValue();
+
+                const userPekerjaanIbu = '{{ strtoupper($user['pekerjaan_ibu'] ?? '') }}';
+                if (occupations.includes(userPekerjaanIbu)) {
+                    this.pekerjaanIbuSelection = userPekerjaanIbu;
+                } else if (userPekerjaanIbu) {
+                    this.pekerjaanIbuSelection = 'LAINNYA...';
+                    this.otherPekerjaanIbu = '{{ $user['pekerjaan_ibu'] ?? '' }}';
+                }
+                this.updatePekerjaanIbuValue();
             },
 
             updateCities() {
@@ -575,6 +601,22 @@
                     this.finalClubName = this.otherClubName;
                 } else {
                     this.finalClubName = this.klubRenangSelection;
+                }
+            },
+
+            updatePekerjaanAyahValue() {
+                if (this.pekerjaanAyahSelection === 'LAINNYA...') {
+                    this.finalPekerjaanAyah = this.otherPekerjaanAyah;
+                } else {
+                    this.finalPekerjaanAyah = this.pekerjaanAyahSelection;
+                }
+            },
+            
+            updatePekerjaanIbuValue() {
+                if (this.pekerjaanIbuSelection === 'LAINNYA...') {
+                    this.finalPekerjaanIbu = this.otherPekerjaanIbu;
+                } else {
+                    this.finalPekerjaanIbu = this.pekerjaanIbuSelection;
                 }
             }
         }
