@@ -2,17 +2,21 @@
 
 namespace App\Providers;
 
-use TheFramework\App\Container;
+use Illuminate\Support\ServiceProvider;
+// PASTIKAN import yang ini:
+use Illuminate\Support\Facades\View; 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Notification;
+use Illuminate\Support\Facades\Schema;
 
-class AppServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
     public function register(): void
     {
-        // Example: $container = Container::getInstance();
-        // $container->singleton(SomeService::class, function() { ... });
+        //
     }
 
     /**
@@ -20,6 +24,24 @@ class AppServiceProvider
      */
     public function boot(): void
     {
-        // Code to run after all services are registered
+        Schema::defaultStringLength(191);
+        
+        View::composer('*', function ($view) {
+            if (Auth::check()) {
+                $user = Auth::user();
+                
+                $view->with([
+                    'user' => $user,
+                    'totalUnreadNotifications' => Notification::where('user_uid', $user->uid)
+                        ->where('is_read', false)
+                        ->count(),
+                    'unreadNotifications' => Notification::where('user_uid', $user->uid)
+                        ->where('is_read', false)
+                        ->latest()
+                        ->take(5)
+                        ->get()
+                ]);
+            }
+        });
     }
 }

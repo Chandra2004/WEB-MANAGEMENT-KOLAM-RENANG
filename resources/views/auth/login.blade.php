@@ -1,5 +1,6 @@
 @extends('layouts.layout-auth.app')
 @section('auth-section')
+
     <div class="mb-10">
         <h1 class="text-3xl font-bold text-white mb-2 uppercase tracking-tight">Selamat Datang</h1>
         <p class="text-slate-400">Masuk untuk mengelola profil dan jadwal latihan Anda.</p>
@@ -11,33 +12,36 @@
             <label class="block text-xs font-bold text-slate-300 uppercase tracking-widest mb-2 pl-1">Email /
                 Username</label>
             <div class="relative">
-                <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                <x-lucide-user class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                 <input name="email" value="{{ old('email') }}" type="text" placeholder="Masukkan email atau username"
-                    class="w-full bg-white/5 border border-white/10 rounded-2xl px-12 py-3.5 text-white outline-none focus:ring-2 focus:ring-ksc-blue focus:border-transparent transition">
+                    class="w-full bg-white/5 border @error('email') border-red-500 @else border-white/10 @enderror rounded-2xl px-12 py-3.5 text-white outline-none focus:ring-2 focus:ring-ksc-blue focus:border-transparent transition">
             </div>
-            @if(has_error('email'))
-                <p class="text-red-500 text-[10px] mt-1.5 ml-1 font-bold italic tracking-wide">⚠ {{ error('email') }}</p>
-            @endif
+            @error('email')
+                <p class="text-red-500 text-xs mt-2 pl-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <div>
             <label class="block text-xs font-bold text-slate-300 uppercase tracking-widest mb-2 pl-1">Kata Sandi</label>
             <div class="relative">
-                <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"></i>
+                <x-lucide-lock class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
                 <input name="password" type="password" placeholder="••••••••"
-                    class="w-full bg-white/5 border border-white/10 rounded-2xl px-12 py-3.5 text-white outline-none focus:ring-2 focus:ring-ksc-blue focus:border-transparent transition">
+                    class="w-full bg-white/5 border @error('password') border-red-500 @else border-white/10 @enderror rounded-2xl px-12 py-3.5 text-white outline-none focus:ring-2 focus:ring-ksc-blue focus:border-transparent transition">
             </div>
-            @if(has_error('password'))
-                <p class="text-red-500 text-[10px] mt-1.5 ml-1 font-bold italic tracking-wide">⚠ {{ error('password') }}</p>
-            @endif
+            @error('password')
+                <p class="text-red-500 text-xs mt-2 pl-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex items-center justify-between text-xs pb-2">
-            <label class="flex items-center gap-2 text-slate-400 cursor-pointer group">
-                <input name="checkbox" type="checkbox"
-                    class="w-4 h-4 rounded border-white/10 bg-white/5 checked:bg-ksc-blue transition">
-                <span class="group-hover:text-white transition">Ingat saya</span>
-            </label>
+            <div class="flex items-center gap-3">
+                <input type="hidden" name="remember" value="0">
+                <label class="relative inline-flex items-center cursor-pointer group">
+                    <input type="checkbox" name="remember" value="1" class="sr-only peer">
+                    <div class="w-9 h-5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-slate-400 after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-ksc-blue peer-checked:after:bg-white"></div>
+                    <span class="ms-3 text-slate-400 group-hover:text-white transition">Ingat saya</span>
+                </label>
+            </div>
             <a href="/forgot-password" class="text-ksc-accent hover:text-yellow-500 font-bold transition">Lupa kata
                 sandi?</a>
         </div>

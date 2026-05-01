@@ -1,79 +1,36 @@
 <?php
 
-namespace TheFramework\Models;
+namespace App\Models;
 
-use Exception;
-use TheFramework\App\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @method static \TheFramework\App\QueryBuilder query()
- * @method static array all()
- * @method static mixed find($id)
- * @method static mixed where($column, $value)
- * @method static mixed insert(array $data)
- * @method static mixed update(array $data, $id)
- * @method static mixed delete($id)
- * @method static mixed paginate(int $perPage = 10, int $page = 1)
- * @method static static with(array $relations)
- */
 class Payment extends Model
 {
-    protected $table = 'payments';
-    protected $primaryKey = 'id';
+    use HasFactory, HasUuids, SoftDeletes;
+
+    protected $primaryKey = 'uid';
+    public $incrementing = false;
 
     protected $fillable = [
-        'uid',
-        'uid_registration',
+        'registration_uid',
+        'invoice_number',
         'amount',
-        'payment_method',
-        'status_pembayaran',
-        'catatan_admin',
-        'tanggal_pembayaran',
-        'bukti_pembayaran',
+        'status',
+        'method',
+        'paid_at',
+        'payment_proof',
+        'admin_notes',
     ];
 
-    protected $hidden = [
-        'uid_registration',
-        'created_at',
-        'updated_at'
+    protected $casts = [
+        'paid_at' => 'datetime',
     ];
 
-    public function addPayment($data)
+    public function registration()
     {
-        try {
-            $this->db->beginTransaction();
-            $addPayment = $this->query()->insert($data);
-            $this->db->commit();
-            return $addPayment;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            throw $e;
-        }
-    }
-
-    public function updatePayment($data, $id)
-    {
-        try {
-            $this->db->beginTransaction();
-            $updatePayment = $this->query()->where('uid', '=', $id)->update($data);
-            $this->db->commit();
-            return $updatePayment;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            throw $e;
-        }
-    }
-
-    public function deletePayment($uid)
-    {
-        try {
-            $this->db->beginTransaction();
-            $delete = $this->query()->where('uid', '=', $uid)->delete();
-            $this->db->commit();
-            return $delete;
-        } catch (Exception $e) {
-            $this->db->rollBack();
-            throw $e;
-        }
+        return $this->belongsTo(Registration::class, 'registration_uid', 'uid');
     }
 }

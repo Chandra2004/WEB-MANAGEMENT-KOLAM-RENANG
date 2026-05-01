@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 
-use TheFramework\Database\Seeder;
+use Hash;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    use WithoutModelEvents;
+
     /**
-     * Jalankan seeder aplikasi.
+     * Seed the application's database.
      */
-    public function run()
+    public function run(): void
     {
-        // Di framework ini, SeedCommand menjalankan semua file di folder ini secara berurutan.
-        // Jadi tidak perlu dipanggil melalui call() agar tidak terjadi duplikasi.
-        /*
         $this->call([
-            RolesSeeder::class,
-            UsersSeeder::class,
-            CategoriesSeeder::class,
+            RolePermissionSeeder::class,
+            UserSeeder::class,
+            NotificationSeeder::class,
         ]);
-        */
     }
 }

@@ -1,0 +1,596 @@
+cek /home/user/FRAMEWORK/docs/PROJECT-CONTRACT/DASHBOARD-ADMIN.md
+untuk di markdown ini berisi API Contract dan Task untuk front-end dan back-end junior saya.
+perkenalkan saya adalah senior developer jadi saya memiliki 2 orang back end dan front end tetapi masih junior harus dipandu, nah saya ingin dengan adanya markdown membuat mereka menjadi terpandu meskipun tidak saya pantau.
+
+1. jika saya perintahkan : tambahkan data instruksi berarti di markdown tersebut data catatanya bertambah bukan mengurang, dan jangan mengurangi data lama
+2. jika saya perintahkan : revisi data (sesuai section) maka revisi pada section tersebut
+
+ini route dashboardnya :
+Router::group([
+    'prefix' => '/{role}',
+    'middleware' => [
+        AuthMiddleware::class,
+        CsrfMiddleware::class, 
+        WAFMiddleware::class, 
+    ]
+], function() {
+    // DASHBOARD
+    Router::add('GET', '/dashboard', DashboardControlller::class, 'dashboard', [[RoleMiddleware::class, ['admin', 'coach', 'member']]]);
+    
+    // CATEGORY MANAGEMENT
+    Router::add('GET', '/dashboard/management-category', CategoryController::class, 'category', [[RoleMiddleware::class, ['admin', 'coach']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-category/create/process', CategoryController::class, 'categoryCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-category/edit/process', CategoryController::class, 'categoryEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-category/delete/process', CategoryController::class, 'categoryDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // EVENT MANAGEMENT
+    Router::add('GET', '/dashboard/management-event', EventController::class, 'event', [[RoleMiddleware::class, ['admin', 'coach']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-event/create/process', EventController::class, 'eventCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-event/edit/process', EventController::class, 'eventEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-event/delete/process', EventController::class, 'eventDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // REGISTRATION MANAGEMENT
+    Router::add('GET', '/dashboard/management-registration', RegistrationController::class, 'registration', [[RoleMiddleware::class, ['admin', 'coach']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-registration/create/process', RegistrationController::class, 'registrationCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-registration/edit/process', RegistrationController::class, 'registrationEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-registration/delete/process', RegistrationController::class, 'registrationDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // USER MANAGEMENT
+    Router::add('GET', '/dashboard/management-user', UserController::class, 'user', [[RoleMiddleware::class, ['admin']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-user/create/process', UserController::class, 'userCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-user/edit/process', UserController::class, 'userEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-user/delete/process', UserController::class, 'userDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // PELATIH MANAGEMENT
+    Router::add('GET', '/dashboard/management-coach', CoachController::class, 'coach', [[RoleMiddleware::class, ['admin']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-coach/create/process', CoachController::class, 'coachCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-coach/edit/process', CoachController::class, 'coachEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-coach/delete/process', CoachController::class, 'coachDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // MEMBER MANAGEMENT
+    Router::add('GET', '/dashboard/management-member', MemberController::class, 'member', [[RoleMiddleware::class, ['admin', 'coach']]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-member/create/process', MemberController::class, 'memberCreateProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-member/edit/process', MemberController::class, 'memberEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/management-member/delete/process', MemberController::class, 'memberDeleteProcess', [[RoleMiddleware::class, []]]);
+    
+    // NOTIFICATION
+    Router::add('GET', '/dashboard/notifications', NotificationController::class, 'notification', [[RoleMiddleware::class, ['admin', 'coach', 'member']]]);
+    Router::add('POST', '/{uidUser}/dashboard/notifications/edit/process', NotificationController::class, 'notificationEditProcess', [[RoleMiddleware::class, []]]);
+    Router::add('POST', '/{uidUser}/dashboard/notifications/delete/process', NotificationController::class, 'notificationDeleteProcess', [[RoleMiddleware::class, []]]);
+
+    // REPORT
+    Router::add('GET', '/dashboard/export-reports', DashboardControlller::class, 'report', [[RoleMiddleware::class, ['admin', 'coach']]]);
+
+    // MY PROFILE
+    Router::add('GET', '/dashboard/my-profile', MyProfileController::class, 'myProfile', [[RoleMiddleware::class, ['admin', 'coach', 'member']]]);
+    Router::add('POST', '/{uidUser}/dashboard/my-profile/edit/process', MyProfileController::class, 'myProfileEditProcess', [[RoleMiddleware::class, []]]);
+
+    // LOGOUT
+    Router::add('GET', '/{uidUser}/dashboard/logout', AuthController::class, 'logout', [[RoleMiddleware::class, ['admin', 'coach', 'member']]]);
+});
+
+SECTION TUGAS 1
+ini untuk role admin :
+GET URL : /admin/dashboard
+
+response json :
+{
+  "notification": null,
+  "title": "Dashboard admin | Khafid Swimming Club (KSC) - Official Website",
+  "user": {
+    "id_user": 1,
+    "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+    "nama_lengkap": "admin cuyy",
+    "email": "admin@gmail.com",
+    "no_telepon": null,
+    "tanggal_lahir": null,
+    "jenis_kelamin": null,
+    "nama_klub": null,
+    "alamat": null,
+    "foto_ktp": null,
+    "foto_profil": null,
+    "is_active": 1,
+    "nama_role": "admin"
+  },
+  "totalUnreadNotification": 1,
+  "unReadNotification": [
+    {
+      "id_notification": 1,
+      "uid": "50a46709-7cb8-488e-b07f-f503b4104ee8",
+      "uid_user": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "judul": "Prof.",
+      "pesan": "Sed culpa velit sed inventore nobis reiciendis saepe. Quam maxime sequi nemo id. Libero quos quo asperiores numquam voluptatem dicta saepe non. Consequatur facilis delectus voluptatem.",
+      "is_read": 0,
+      "created_at": "2026-02-21 16:36:26",
+      "updated_at": "2026-02-21 16:36:26"
+    }
+  ],
+  "totalAnggota": 3,
+  "eventAktif": 36,
+  "antreanValidasi": 2,
+  "members": [
+    {
+      "id_user": 1,
+      "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "tanggal_lahir": null,
+      "nama_klub": null,
+      "foto_profil": null
+    },
+    {
+      "id_user": 2,
+      "uid": "affdd74a-efc7-49ef-a2a3-21dbc01abf08",
+      "tanggal_lahir": null,
+      "nama_klub": null,
+      "foto_profil": null
+    },
+    {
+      "id_user": 3,
+      "uid": "a0f3d96e-ca9f-49bd-92ad-30e875fe5b69",
+      "tanggal_lahir": null,
+      "nama_klub": null,
+      "foto_profil": null
+    }
+  ]
+}
+
+tugas untuk backend :
+public function data() {
+    return Helper::json([
+        'notification' => Helper::get_flash('notification'),
+        'title' =>  'Dashboard ' . Helper::session_get("user")['nama_role'] . ' | Khafid Swimming Club (KSC) - Official Website',
+        'user' => Helper::session_get('user'),
+        'totalUnreadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->count(),
+        'unReadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->all(),
+        'totalAnggota' => User::count(),
+        'eventAktif' => Event::query()->where('status_event', '=', 'berjalan')->count(),
+        'antreanValidasi' => Registration::query()->where('status', '=', 'menunggu')->count(),
+
+        'members' => User::query()->select([
+            'id_user',
+            'uid',
+            'tanggal_lahir',
+            'nama_klub',
+            'foto_profil'
+        ])
+        ->limit(5)
+        ->orderBy('created_at','desc')
+        ->all(),
+    ], 200);
+}
+ini saya berikan query untuk kamu AI agar menyuruh backend membuat query seperti ini, jangan diberikan query secara gamblang, biar dia berpikir sendiri bagaimana problem solvingnya
+
+lalu lihat /home/user/FRAMEWORK/app/Http/Controllers/DashboardControlller.php
+- ada array yang sudah ready dan tidak usah dimasukkan lagi contoh (notification, user, totalUnreadNotification, unReadNotification). mengapa tetap saya catat agar supaya lengkap tidak sampai tertinggal.
+- lihat ada method getAdminData() nah data array mana yang cocok diletakkan di method tersebut
+
+
+tugas untuk frontend :
+lihat /home/user/FRAMEWORK/resources/views/dashboard/admin/dashboard.blade.php
+
+dari data yang cocok di json response tersebut mana bagian bagian yang :
+- harus diganti
+- bagian mana yang cocok dibuat kondisi
+- harus dilooping
+- untuk gambar berikan instruksi khusus :
+    - kalau tidak ada gambarnya maka munculkan initial
+    - kalau ada gambar isi gambarnya dengan {{ url('/file/users/' . $member['foto_profil']) }}
+
+
+
+SECTION TUGAS 2
+ini untuk role admin :
+GET URL : /admin/dashboard/management-category
+
+tugas untuk backend :
+lihat /home/user/FRAMEWORK/app/Http/Controllers/CategoryController.php
+
+response json :
+{
+  "notification": null,
+  "title": "Manajemen Kategori | Khafid Swimming Club (KSC) - Official Website",
+  "user": {
+    "id_user": 1,
+    "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+    "nama_lengkap": "admin cuyy",
+    "email": "admin@gmail.com",
+    "no_telepon": null,
+    "tanggal_lahir": null,
+    "jenis_kelamin": null,
+    "nama_klub": null,
+    "alamat": null,
+    "foto_ktp": null,
+    "foto_profil": null,
+    "is_active": 1,
+    "nama_role": "admin"
+  },
+  "totalUnreadNotification": 1,
+  "unReadNotification": [
+    {
+      "id_notification": 1,
+      "uid": "50a46709-7cb8-488e-b07f-f503b4104ee8",
+      "uid_user": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "judul": "Prof.",
+      "pesan": "Sed culpa velit sed inventore nobis reiciendis saepe. Quam maxime sequi nemo id. Libero quos quo asperiores numquam voluptatem dicta saepe non. Consequatur facilis delectus voluptatem.",
+      "is_read": 0,
+      "created_at": "2026-02-21 16:36:26",
+      "updated_at": "2026-02-21 16:36:26"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "uid": "c03457b9-f383-4bc5-9fb5-436d6cfb82d1",
+      "nama_kategori": "Franz Stark",
+      "slug_kategori": null
+    },
+    {
+      "id": 2,
+      "uid": "f3669fcf-db35-45a7-9099-05adf8e93bce",
+      "nama_kategori": "Lauren Larkin",
+      "slug_kategori": null
+    },
+    {
+      "id": 3,
+      "uid": "925add50-abd1-4fb3-b35c-40973210f653",
+      "nama_kategori": "Rogelio Conroy",
+      "slug_kategori": null
+    }
+  ]
+}
+
+ini :
+return Helper::json([
+    'notification' => Helper::get_flash('notification'),
+    'title' =>  'Dashboard ' . Helper::session_get("user")['nama_role'] . ' | Khafid Swimming Club (KSC) - Official Website',
+    'user' => Helper::session_get('user'),
+    'totalUnreadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->count(),
+    'unReadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->all(),
+    
+    'categories' => Category::all(),
+], 200);
+sama seperti tadi
+
+POST URL /{role}/{uidUser}/dashboard/management-category/create/process
+- buat CategoryRequest untuk menampung request dari form
+- ini anda AI berikan rules dan label yang cocok untuk CategoryRequest
+request json untuk CUD(create, update, delete) :
+{
+  "nama_kategori": 'Seafood',
+}
+
+- method categoryCreateProcess() menerima 3 parameter $role, dan $uidUser, $request.
+- buatkan pengecekan :
+    - jika $role dan $uidUser cocok dengan database maka perbolehkan dia membuat data
+    - jika data $request isinya sama dengan data yang ada di tabel Categories maka tolak (ini sensitif jadikan huruf kecil semua)
+    - jika keduanya lolos maka waktunya untuk membuat dan menyimpan data ke database
+    - pengecekan dan penyimpanan letakkan di model Category.php
+    - penyimpanan data gunakan try catch & transaction (seperti di register)
+
+- untuk method categoryEditProcess() dan categoryDeleteProcess() tolong AI kamu buatkan tugas untuk backend
+
+- untuk create buatkan array tambahan agar bisa masuk ke tabel categories saya lupa mengingatkan :
+    - $request['uid'] = Helper::uuid();
+    - $request['slug'] = Helper::slugify($request['nama_kategori']);
+
+    - kalau update slugnya ikut update
+
+tugas untuk front end :
+lihat resources/views/dashboard/general/category.blade.php
+
+- sama juga mana yang perlu dilooping dari mana sampai mana
+- modal box juga ketika ada banyak data modal boxnya sesuai data yang diletakkan
+- untuk form juga dari create & update & delete apa yang kurang, kelihatannya yang kurang adalah :
+    - @csrf
+    - atribut name input yang kurang presisi
+    - method, action di setiap form
+    - untuk modal box update berikan value dari data list yang dipilih
+    - button submit
+    - 
+
+    🎨 Tugas untuk Front-end (Mada)
+    ini endpoint POST itu  :
+    url('/' . $user['nama_role'] . '/' . $user['uid'] . '/dashboard/management-category/create/process')
+    url('/' . $user['nama_role'] . '/' . $user['uid'] . '/dashboard/management-category/edit/process')
+    url('/' . $user['nama_role'] . '/' . $user['uid'] . '/dashboard/management-category/delete/process')
+
+
+
+
+ada revisi di endpoint management event :
+data json :
+{
+  "notification": null,
+  "title": "Dashboard admin | Khafid Swimming Club (KSC) - Official Website",
+  "user": {
+    "id_user": 1,
+    "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+    "nama_lengkap": "admin cuyy",
+    "email": "admin@gmail.com",
+    "no_telepon": null,
+    "tanggal_lahir": null,
+    "jenis_kelamin": null,
+    "nama_klub": null,
+    "alamat": null,
+    "foto_ktp": null,
+    "foto_profil": null,
+    "is_active": 1,
+    "nama_role": "admin"
+  },
+  "totalUnreadNotification": 1,
+  "unReadNotification": [
+    {
+      "id_notification": 1,
+      "uid": "50a46709-7cb8-488e-b07f-f503b4104ee8",
+      "uid_user": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "judul": "Prof.",
+      "pesan": "Sed culpa velit sed inventore nobis reiciendis saepe. Quam maxime sequi nemo id. Libero quos quo asperiores numquam voluptatem dicta saepe non. Consequatur facilis delectus voluptatem.",
+      "is_read": 0,
+      "created_at": "2026-02-21 16:36:26",
+      "updated_at": "2026-02-21 16:36:26"
+    }
+  ],
+  "events": [
+    {
+      "id": 24,
+      "uid": "acae4812-119a-4a32-91de-7b4e71f8765e",
+      "banner_event": "gambar_renang_11.webp",
+      "nama_event": "Kejuaraan Renang Bima",
+      "deskripsi": "Dormouse! Turn that Dormouse out of sight. Alice remained looking thoughtfully at the Duchess said to the garden door. Poor Alice! It was all very well as she went back to the little door about.",
+      "lokasi_event": "Gg. Gremet No. 600, Bau-Bau 46933, Gorontalo",
+      "waktu_event": null,
+      "tanggal_event": "2026-10-27",
+      "biaya_event": "176837.00",
+      "status_event": "berjalan",
+      "kuota_peserta": null,
+      "tipe_event": "gratis",
+      "slug": null,
+      "nama_author": "admin cuyy",
+      "nama_kategori": "Franz Stark"
+    }
+  ],
+  "categories": [
+    {
+      "uid": "c03457b9-f383-4bc5-9fb5-436d6cfb82d1",
+      "nama_kategori": "Franz Stark"
+    },
+    {
+      "uid": "f3669fcf-db35-45a7-9099-05adf8e93bce",
+      "nama_kategori": "Lauren Larkin"
+    },
+    {
+      "uid": "925add50-abd1-4fb3-b35c-40973210f653",
+      "nama_kategori": "Rogelio Conroy"
+    }
+  ],
+  "users": [
+    {
+      "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "nama_lengkap": "admin cuyy"
+    },
+    {
+      "uid": "affdd74a-efc7-49ef-a2a3-21dbc01abf08",
+      "nama_lengkap": "pelatih kawandd"
+    },
+    {
+      "uid": "a0f3d96e-ca9f-49bd-92ad-30e875fe5b69",
+      "nama_lengkap": "member boyy"
+    },
+    {
+      "uid": "a49f0623-9da1-4bb4-9d31-6c990729edc4",
+      "nama_lengkap": "film chandra"
+    }
+  ]
+}
+
+public function data() {
+        return Helper::json([
+            'notification' => Helper::get_flash('notification'),
+            'title' =>  'Dashboard ' . Helper::session_get("user")['nama_role'] . ' | Khafid Swimming Club (KSC) - Official Website',
+            'user' => Helper::session_get('user'),
+            'totalUnreadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->count(),
+            'unReadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->all(),
+            
+            'events' => Event::query()
+                ->select([
+                    'events.*',
+                    'users.nama_lengkap AS nama_author',
+                    'categories.nama_kategori'
+                ])
+                ->join('users', 'users.uid', '=', 'events.uid_author')
+                ->join('categories', 'categories.uid', '=', 'events.uid_kategori')
+                ->limit(1)
+                ->all(),
+            'categories' => Category::query()->select(['uid', 'nama_kategori'])->all(),
+            'users' => User::query()->select(['uid', 'nama_lengkap'])->all(),
+        ], 200);
+    }
+
+
+
+revisi untuk management registration :
+response json :
+{
+  "notification": null,
+  "title": "Dashboard admin | Khafid Swimming Club (KSC) - Official Website",
+  "user": {
+    "id_user": 1,
+    "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+    "nama_lengkap": "admin cuyy",
+    "email": "admin@gmail.com",
+    "no_telepon": null,
+    "tanggal_lahir": null,
+    "jenis_kelamin": null,
+    "nama_klub": null,
+    "alamat": null,
+    "foto_ktp": null,
+    "foto_profil": null,
+    "is_active": 1,
+    "nama_role": "admin"
+  },
+  "totalUnreadNotification": 1,
+  "unReadNotification": [
+    {
+      "id_notification": 1,
+      "uid": "50a46709-7cb8-488e-b07f-f503b4104ee8",
+      "uid_user": "4e8ada26-3a11-473e-852e-b402a35328e3",
+      "judul": "Prof.",
+      "pesan": "Sed culpa velit sed inventore nobis reiciendis saepe. Quam maxime sequi nemo id. Libero quos quo asperiores numquam voluptatem dicta saepe non. Consequatur facilis delectus voluptatem.",
+      "is_read": 0,
+      "created_at": "2026-02-21 16:36:26",
+      "updated_at": "2026-02-21 16:36:26"
+    }
+  ],
+  "registrationEvents": [
+    {
+      "uid": "071328ee-b69f-406c-b432-0991e91cf571",
+      "nama_event": "Kejuaraan Renang Tasikmalaya",
+      "biaya_event": "178359.00",
+      "kuota_peserta": null,
+      "tipe_event": "berbayar",
+      "status_event": "ditutup",
+      "nama_author": "pelatih kawandd",
+      "nama_kategori": "Lauren Larkin",
+      "registrationMember_count": 1,
+      "registrationMember": [
+        {
+          "uid": "f267536f-6ddc-49f8-813d-4b8b0fc214c9",
+          "uid_event": "071328ee-b69f-406c-b432-0991e91cf571",
+          "uid_user": "4e8ada26-3a11-473e-852e-b402a35328e3",
+          "status": "menunggu",
+          "tanggal_registrasi": "1973-07-03",
+          "user": {
+            "id_user": 1,
+            "uid": "4e8ada26-3a11-473e-852e-b402a35328e3",
+            "nama_lengkap": "admin cuyy"
+          },
+          "payment": {
+            "id": 1,
+            "uid": "a6b17179-93e2-47fc-9f4e-fbf291b8991b",
+            "uid_registration": "f267536f-6ddc-49f8-813d-4b8b0fc214c9",
+            "total_bayar": null,
+            "metode_pembayaran": "Baileytown",
+            "status_pembayaran": "menunggu",
+            "catatan_admin": null,
+            "tanggal_pembayaran": "2016-02-15 00:00:00",
+            "bukti_pembayaran": "Lane Luettgen I",
+            "created_at": "2026-02-21 16:36:27",
+            "updated_at": "2026-02-21 16:36:27"
+          }
+        }
+      ]
+    },
+    {
+      "uid": "ee84c094-ab67-4897-9d1d-fc18ef3a3e88",
+      "nama_event": "Kejuaraan Renang Ternate",
+      "biaya_event": "402320.00",
+      "kuota_peserta": null,
+      "tipe_event": "gratis",
+      "status_event": "ditunda",
+      "nama_author": "admin cuyy",
+      "nama_kategori": "Rogelio Conroy",
+      "registrationMember_count": 2,
+      "registrationMember": [
+        {
+          "uid": "13f7c083-11f8-4e2b-b5ba-a0fa5e64b883",
+          "uid_event": "ee84c094-ab67-4897-9d1d-fc18ef3a3e88",
+          "uid_user": "affdd74a-efc7-49ef-a2a3-21dbc01abf08",
+          "status": "diterima",
+          "tanggal_registrasi": "1970-03-27",
+          "user": null,
+          "payment": null
+        },
+        {
+          "uid": "dac54afc-17b0-4ea1-91fe-eda7661f99f1",
+          "uid_event": "ee84c094-ab67-4897-9d1d-fc18ef3a3e88",
+          "uid_user": "affdd74a-efc7-49ef-a2a3-21dbc01abf08",
+          "status": "ditolak",
+          "tanggal_registrasi": "1998-07-10",
+          "user": null,
+          "payment": null
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "uid": "071328ee-b69f-406c-b432-0991e91cf571",
+      "nama_event": "Kejuaraan Renang Tasikmalaya"
+    },
+    {
+      "uid": "ee84c094-ab67-4897-9d1d-fc18ef3a3e88",
+      "nama_event": "Kejuaraan Renang Ternate"
+    }
+  ],
+  "members": [
+    {
+      "id_user": 3,
+      "uid": "a0f3d96e-ca9f-49bd-92ad-30e875fe5b69",
+      "nama_lengkap": "member boyy",
+      "email": "member@gmail.com",
+    },
+    {
+      "id_user": 4,
+      "uid": "a49f0623-9da1-4bb4-9d31-6c990729edc4",
+      "nama_lengkap": "film chandra",
+      "email": "filmnyachandra@gmail.com",
+    }
+  ]
+}
+
+public function data()
+{
+    return Helper::json([
+        'notification' => Helper::get_flash('notification'),
+        'title' =>  'Dashboard ' . Helper::session_get("user")['nama_role'] . ' | Khafid Swimming Club (KSC) - Official Website',
+        'user' => Helper::session_get('user'),
+        'totalUnreadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->count(),
+        'unReadNotification' => Notification::query()->where('is_read', '=', 0)->where('uid_user', '=', Helper::session_get("user")['uid'])->all(),
+
+        'registrationEvents' => Event::query()
+            ->select([
+                'events.uid',
+                'events.nama_event',
+                'events.biaya_event',
+                'events.kuota_peserta',
+                'events.tipe_event',
+                'events.status_event',
+                'users.nama_lengkap AS nama_author',
+                'categories.nama_kategori'
+            ])
+            ->with(['registrationMember.user', 'registrationMember.payment'])
+            ->withCount(['registrationMember'])
+            ->join('users', 'users.uid', '=', 'events.uid_author')
+            ->join('categories', 'categories.uid', '=', 'events.uid_kategori')
+            ->where('events.uid', '=', 'ee84c094-ab67-4897-9d1d-fc18ef3a3e88')
+            ->orWhere('events.uid', '=', '071328ee-b69f-406c-b432-0991e91cf571')
+            ->all(),
+        'events' => Event::query()
+        ->select([
+            'uid',
+            'nama_event'
+        ])
+        ->limit(2)
+        ->all(),
+    ], 200);
+}
+
+Event.php :
+public function registrationMember() {
+    return $this->hasMany(Registration::class, 'uid_event', 'uid')
+        ->select([
+            'uid',
+            'uid_event',
+            'uid_user',
+            'status',
+            'tanggal_registrasi'
+        ]);
+}
+
+Registration.php :
+public function user() {
+    return $this->belongsTo(User::class, 'uid_user', 'uid')->select(['id_user', 'uid', 'nama_lengkap']);
+}
+
+public function payment() {
+    return $this->hasOne(Payment::class, 'uid_registration', 'uid');
+}

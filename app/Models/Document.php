@@ -1,41 +1,29 @@
 <?php
 
-namespace TheFramework\Models;
+namespace App\Models;
 
-use TheFramework\App\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
 {
-    protected $table = 'document';
-    protected $primaryKey = 'id';
+    use HasUuids, SoftDeletes;
+
+    protected $primaryKey = 'uid';
+    public $incrementing = false;
 
     protected $fillable = [
-        'uid',
-        'uid_event',
-        'judul',
-        'deskripsi',
-        'logo_kiri',
-        'logo_kanan',
-        'file_path'
+        'event_uid',
+        'title',
+        'description',
+        'logo_left',
+        'logo_right',
+        'file_path',
     ];
-
-    public function addDocument(array $data): bool
-    {
-        return $this->insert($data);
-    }
-
-    public function updateDocument(array $data, string $uid): bool
-    {
-        return $this->update($data, ['uid' => $uid]);
-    }
-
-    public function deleteDocument(string $uid): bool
-    {
-        return $this->delete(['uid' => $uid]);
-    }
 
     public function event()
     {
-        return $this->belongsTo(Event::class, 'uid_event', 'uid');
+        return $this->belongsTo(Event::class, 'event_uid', 'uid');
     }
 }

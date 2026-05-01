@@ -4,18 +4,18 @@
 <div class="p-4 md:p-8 overflow-y-auto h-screen bg-slate-50/50">
     {{-- HEADER --}}
     <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div class="text-left">
+        {{-- <div class="text-left">
             <h2 class="text-3xl font-black text-slate-900 leading-tight tracking-tight uppercase">Pengaturan Profil</h2>
             <p class="text-sm text-slate-500 font-medium italic">Kelola identitas digital, data fisik, dan dokumen verifikasi dalam satu panel terpadu.</p>
-        </div>
+        </div> --}}
 
-        @php
+        {{-- @php
             $profileStatus = $user->getProfileCompletion();
             $completionPercentage = $profileStatus['percentage'];
             $missingFields = $profileStatus['missing'];
-        @endphp
+        @endphp --}}
 
-        @if($completionPercentage < 100)
+        {{-- @if($completionPercentage < 100)
             <div class="flex items-center gap-3 bg-amber-50 border border-amber-200 p-3 rounded-xl">
                 <div class="h-10 w-10 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600 flex-shrink-0">
                     <i data-lucide="alert-triangle" class="w-6 h-6"></i>
@@ -37,12 +37,12 @@
                     <p class="text-[10px] text-emerald-600 font-medium">Bagus! Seluruh data identitas Anda sudah lengkap.</p>
                 </div>
             </div>
-        @endif
+        @endif --}}
     </div>
     
     <p class="text-sm text-slate-600 font-medium mb-4 italic">Kolom yang ditandai dengan <span class="text-red-500 font-bold">*</span> wajib diisi untuk melengkapi profil Anda.</p>
 
-    @php
+    {{-- @php
         $locations = [
             'ACEH' => ['KAB. ACEH SELATAN', 'KAB. ACEH TENGGARA', 'KAB. ACEH TIMUR', 'KAB. ACEH TENGAH', 'KAB. ACEH BARAT', 'KAB. ACEH BESAR', 'KAB. PIDIE', 'KAB. ACEH UTARA', 'KAB. SIMEULUE', 'KAB. ACEH SINGKIL', 'KAB. BIREUEN', 'KAB. ACEH BARAT DAYA', 'KAB. GAYO LUES', 'KAB. ACEH JAYA', 'KAB. NAGAN RAYA', 'KAB. ACEH TAMIANG', 'KAB. BENER MERIAH', 'KAB. PIDIE JAYA', 'KOTA BANDA ACEH', 'KOTA SABANG', 'KOTA LHOKSEUMAWE', 'KOTA LANGSA', 'KOTA SUBULUSSALAM'],
             'SUMATERA UTARA' => ['KAB. TAPANULI TENGAH', 'KAB. TAPANULI UTARA', 'KAB. TAPANULI SELATAN', 'KAB. NIAS', 'KAB. LANGKAT', 'KAB. KARO', 'KAB. DELI SERDANG', 'KAB. SIMALUNGUN', 'KAB. ASAHAN', 'KAB. LABUHANBATU', 'KAB. DAIRI', 'KAB. TOBA SAMOSIR', 'KAB. MANDAILING NATAL', 'KAB. NIAS SELATAN', 'KAB. PAKPAK BHARAT', 'KAB. HUMBANG HASUNDUTAN', 'KAB. SAMOSIR', 'KAB. SERDANG BEDAGAI', 'KAB. BATU BARA', 'KAB. PADANG LAWAS UTARA', 'KAB. PADANG LAWAS', 'KAB. LABUHANBATU SELATAN', 'KAB. LABUHANBATU UTARA', 'KAB. NIAS UTARA', 'KAB. NIAS BARAT', 'KOTA MEDAN', 'KOTA PEMATANGSIANTAR', 'KOTA SIBOLGA', 'KOTA TANJUNGBALAI', 'KOTA BINJAI', 'KOTA TEBING TINGGI', 'KOTA PADANGSIDIMPUAN', 'KOTA GUNUNGSITOLI'],
@@ -91,14 +91,14 @@
         $availableClubs = [
             'KHAFID SWIMMING CLUB'
         ];
-    @endphp
+    @endphp --}}
 
     <form action="{{ url('/' . $user['nama_role'] . '/' . $user['uid'] . '/dashboard/my-profile/edit/process') }}"
         method="POST" enctype="multipart/form-data" x-data="profileHandler()" @submit="validateAndSubmit">
         @csrf
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-            <div class="space-y-6">
+            {{-- <div class="space-y-6">
                 <div class="bg-white border border-slate-200 rounded-[2.5rem] p-8 shadow-sm text-center">
                     <div class="relative w-40 h-40 mx-auto mb-6">
                         <img :src="avatarUrl" class="w-full h-full rounded-[2.5rem] object-cover border-4 border-slate-50 shadow-xl transition-all duration-500" :class="loadingAvatar ? 'opacity-50 blur-sm' : ''">
@@ -143,9 +143,9 @@
                         <input type="file" name="foto_akta" x-ref="aktaInput" class="hidden" accept="image/*" @change="previewFile($event, 'akta')">
                     </div>
                 @endif
-            </div>
+            </div> --}}
 
-            <div class="lg:col-span-2 space-y-8 text-left">
+            {{-- <div class="lg:col-span-2 space-y-8 text-left">
                 
                 <div class="bg-white border border-slate-200 rounded-[2.5rem] shadow-sm overflow-hidden">
                     <div class="border-b border-slate-100 p-8 bg-slate-50/30 flex items-center gap-3">
@@ -431,12 +431,12 @@
                         Simpan Semua Perubahan
                     </button>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </form>
 </div>
 
-<script>
+{{-- <script>
     function searchableDropdown(options, initialValue) {
         return {
             isOpen: false,
@@ -621,5 +621,5 @@
             }
         }
     }
-</script>
+</script> --}}
 @endsection

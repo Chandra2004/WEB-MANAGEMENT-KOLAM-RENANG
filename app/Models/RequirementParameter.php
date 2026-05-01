@@ -1,41 +1,31 @@
 <?php
 
-namespace TheFramework\Models;
+namespace App\Models;
 
-use TheFramework\App\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @method static \TheFramework\App\QueryBuilder query()
- */
 class RequirementParameter extends Model
 {
-    protected $table = 'requirement_parameters';
+    use HasUuids, SoftDeletes;
+
     protected $primaryKey = 'uid';
+    public $incrementing = false;
 
     protected $fillable = [
-        'uid',
         'parameter_key',
         'display_name',
         'input_type',
         'input_options',
         'allowed_operators',
         'description',
-        'is_active'
+        'is_active',
     ];
 
-    /**
-     * Get input options as array
-     */
-    public function getOptionsAttribute()
-    {
-        return json_decode($this->input_options ?? '[]', true);
-    }
-
-    /**
-     * Get allowed operators as array
-     */
-    public function getOperatorsAttribute()
-    {
-        return json_decode($this->allowed_operators ?? '[]', true);
-    }
+    protected $casts = [
+        'input_options' => 'json',
+        'allowed_operators' => 'json',
+        'is_active' => 'boolean',
+    ];
 }

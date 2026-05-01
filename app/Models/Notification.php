@@ -1,34 +1,33 @@
 <?php
 
-namespace TheFramework\Models;
+namespace App\Models;
 
-use TheFramework\App\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * @method static \TheFramework\App\QueryBuilder query()
- * @method static array all()
- * @method static mixed find($id)
- * @method static mixed where($column, $value)
- * @method static mixed insert(array $data)
- * @method static mixed update(array $data, $id)
- * @method static mixed delete($id)
- * @method static mixed paginate(int $perPage = 10, int $page = 1)
- * @method static static with(array $relations)
- */
 class Notification extends Model
 {
-    protected $table = 'notifications';
+    use HasUuids, SoftDeletes;
+
     protected $primaryKey = 'uid';
+    public $incrementing = false;
 
     protected $fillable = [
-        'uid',
-        'uid_user',
-        'judul',
-        'pesan',
-        'is_read'
+        'user_uid',
+        'title',
+        'message',
+        'is_read',
+        'read_at',
     ];
 
-    protected $hidden = [
-        // 'password', 'token', ...
+    protected $casts = [
+        'is_read' => 'boolean',
+        'read_at' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_uid', 'uid');
+    }
 }

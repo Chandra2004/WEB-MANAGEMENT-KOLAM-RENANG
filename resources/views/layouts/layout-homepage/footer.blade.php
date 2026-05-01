@@ -69,7 +69,7 @@
     </div>
 </footer>
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Inisialisasi ikon Lucide
         lucide.createIcons();
@@ -217,4 +217,4 @@
             });
         }
     });
-</script>
+</script> --}}

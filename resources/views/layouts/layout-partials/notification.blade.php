@@ -1,127 +1,74 @@
-<div class="fixed top-0 right-0 z-[9999] flex flex-col items-end p-4 space-y-4">
+@if (session('notification'))
+    @php
+        $notification = session('notification');
+        $status = $notification['status'] ?? 'success';
 
-    @if (isset($notification['status']) && $notification['status'] === 'error')
-        <div id="alert-2"
-            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-700 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 transform translate-y-4 transition-all duration-300 ease-in-out"
-            role="alert" data-notification-type="error">
-            <div class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path
-                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
-                </svg>
-                <span class="sr-only">Error</span>
+        $styles = [
+            'error'   => ['bg' => 'bg-red-50', 'text' => 'text-red-600', 'border' => 'border-red-200', 'icon' => 'lucide-x-circle'],
+            'success' => ['bg' => 'bg-green-50', 'text' => 'text-green-600', 'border' => 'border-green-200', 'icon' => 'lucide-check-circle'],
+            'warning' => ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-600', 'border' => 'border-yellow-200', 'icon' => 'lucide-alert-circle'],
+        ][$status] ?? ['bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-200', 'icon' => 'lucide-info'];
+    @endphp
+
+    <div id="toast-template" class="hidden">
+        <div class="toast-item flex items-center w-full max-w-sm p-4 mb-3 text-gray-700 bg-white border {{ $styles['border'] }} rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] transform scale-90 opacity-0 translate-y-2 select-none"
+            role="alert" style="pointer-events: auto;">
+
+            <div class="flex-shrink-0 flex items-center justify-center w-10 h-10 {{ $styles['bg'] }} {{ $styles['text'] }} rounded-xl">
+                @svg($styles['icon'], "w-6 h-6")
             </div>
-            <div class="ms-3 text-sm font-medium">
+
+            <div class="ms-3 text-sm font-semibold flex-grow">
                 {{ $notification['message'] }}
             </div>
-            <button type="button"
-                class="ms-auto -mx-1.5 -my-1.5 text-gray-500 hover:text-gray-900 rounded-lg p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
-                data-dismiss-target aria-label="Close">
+
+            <button type="button" class="ms-4 -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-50 inline-flex items-center justify-center h-8 w-8 btn-close">
                 <span class="sr-only">Close</span>
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/></svg>
             </button>
         </div>
-    @endif
+    </div>
 
-    @if (isset($notification['status']) && $notification['status'] === 'success')
-        <div id="alert-3"
-            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-700 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 transform translate-y-4 transition-all duration-300 ease-in-out"
-            role="alert" data-notification-type="success">
-            <div
-                class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path
-                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                </svg>
-                <span class="sr-only">Success</span>
-            </div>
-            <div class="ms-3 text-sm font-medium">
-                {{ $notification['message'] }}
-            </div>
-            <button type="button"
-                class="ms-auto -mx-1.5 -my-1.5 text-gray-500 hover:text-gray-900 rounded-lg p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
-                data-dismiss-target aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
-            </button>
-        </div>
-    @endif
-
-    @if (isset($notification['status']) && $notification['status'] === 'warning')
-        <div id="alert-4" 
-            class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-700 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 transform translate-y-4 transition-all duration-300 ease-in-out"
-            role="alert" data-notification-type="warning">
-            <div
-                class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-orange-500 bg-orange-100 rounded-lg">
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                    viewBox="0 0 20 20">
-                    <path
-                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
-                </svg>
-                <span class="sr-only">Warning</span>
-            </div>
-            <div class="ms-3 text-sm font-medium">
-                {{ $notification['message'] }}
-            </div>
-            <button type="button"
-                class="ms-auto -mx-1.5 -my-1.5 text-gray-500 hover:text-gray-900 rounded-lg p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
-                data-dismiss-target aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                </svg>
-            </button>
-        </div>
-    @endif
-
-    {{-- Logika JavaScript untuk menampilkan dan menyembunyikan notifikasi --}}
-    @if (isset($notification['status']))
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const notificationStatus = '{{ $notification['status'] }}';
-            const activeToast = document.querySelector(`[data-notification-type="${notificationStatus}"]`);
-
-            if (activeToast) {
-                const toastDuration = {{ isset($notification['duration']) ? (int)$notification['duration'] : 10000 }};
-                
-                const showToast = () => {
-                    activeToast.classList.remove('opacity-0', 'translate-y-4');
-                    activeToast.classList.add('opacity-100', 'translate-y-0');
-                };
-
-                const hideToast = () => {
-                    activeToast.classList.remove('opacity-100', 'translate-y-0');
-                    activeToast.classList.add('opacity-0', 'translate-y-4');
-                    activeToast.addEventListener('transitionend', () => {
-                        activeToast.remove();
-                    }, { once: true });
-                };
-
-                const closeButton = activeToast.querySelector('[data-dismiss-target]');
-                if (closeButton) {
-                    closeButton.addEventListener('click', () => {
-                        clearTimeout(timer);
-                        hideToast();
-                    });
-                }
-
-                showToast();
-
-                const timer = setTimeout(hideToast, toastDuration);
+        (function() {
+            let container = document.getElementById('tf-notifications');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'tf-notifications';
+                container.className = "fixed top-6 right-6 z-[9999] flex flex-col items-end w-full max-w-xs sm:max-w-sm pointer-events-none";
+                document.body.appendChild(container);
             }
-        });
+
+            const template = document.querySelector('#toast-template .toast-item');
+            const newToast = template.cloneNode(true);
+            container.prepend(newToast);
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    newToast.classList.remove('scale-90', 'opacity-0', 'translate-y-2');
+                    newToast.classList.add('scale-100', 'opacity-100', 'translate-y-0');
+                }, 10);
+            });
+
+            const removeToast = () => {
+                newToast.classList.add('scale-95', 'opacity-0', 'translate-x-10');
+
+                newToast.style.marginBottom = `-${newToast.offsetHeight}px`;
+                newToast.style.marginTop = '0px';
+
+                newToast.addEventListener('transitionend', () => {
+                    newToast.remove();
+                }, { once: true });
+            };
+
+            const duration = {{ $notification['duration'] ?? 5000 }};
+            let timer = setTimeout(removeToast, duration);
+
+            newToast.querySelector('.btn-close').onclick = () => {
+                clearTimeout(timer);
+                removeToast();
+            };
+            newToast.onmouseenter = () => clearTimeout(timer);
+            newToast.onmouseleave = () => timer = setTimeout(removeToast, 2000);
+        })();
     </script>
-    @endif
-</div>
+@endif

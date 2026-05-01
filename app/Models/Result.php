@@ -1,53 +1,31 @@
 <?php
 
-namespace TheFramework\Models;
+namespace App\Models;
 
-use TheFramework\App\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Result extends Model
 {
-    protected $table = 'results';
+    use HasFactory, HasUuids, SoftDeletes;
+
+    protected $primaryKey = 'uid';
+    public $incrementing = false;
+
     protected $fillable = [
-        'uid',
-        'uid_registration',
-        'waktu_akhir',
+        'registration_uid',
+        'final_time',
         'total_milliseconds',
         'status',
-        'peringkat',
-        'nama_penandatangan',
-        'score'
+        'rank',
+        'official_name',
+        'score',
     ];
 
-    /**
-     * Relasi ke Pendaftaran
-     */
     public function registration()
     {
-        return $this->belongsTo(Registration::class, 'uid_registration', 'uid');
-    }
-
-    /**
-     * Mencari Waktu Terbaik (Best Time) untuk atlet di kategori master tertentu
-     * Hanya mengambil dari event yang tanggal mulainya SEBELUM event saat ini
-     */
-    public static function getBestTime($uidUser, $uidCategory, $currentEventDate = null)
-    {
-        $query = self::query()
-            ->select(['results.*'])
-            ->join('registrations', 'results.uid_registration', '=', 'registrations.uid')
-            ->join('event_categories', 'registrations.uid_event_category', '=', 'event_categories.uid')
-            ->join('events', 'event_categories.uid_event', '=', 'events.uid')
-            ->where('registrations.uid_user', '=', $uidUser)
-            ->where('event_categories.uid_category', '=', $uidCategory)
-            ->where('results.status', '=', 'FINISH')
-            ->where('results.total_milliseconds', '>', 0);
-
-        if ($currentEventDate) {
-            $query->where('events.tanggal_mulai', '<', $currentEventDate);
-        }
-
-        $best = $query->orderBy('results.total_milliseconds', 'ASC')->first();
-
-        return $best ? $best['waktu_akhir'] : 'NT';
+        return $this->belongsTo(Registration::class, 'registration_uid', 'uid');
     }
 }
